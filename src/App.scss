@@ -1,0 +1,110 @@
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+}
+
+.App-header {
+    background-color: #00a099;
+    padding: 10px;
+    color: white;
+}
+
+.App-intro {
+    font-size: large;
+}
+
+@keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+div.led-slider {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    div.rc-slider {
+        padding-top: 30px;
+    }
+
+    button {
+        position: absolute;
+        margin-top: -10px;
+        
+        &.left {
+            left: 0px;
+            margin-left: 20px;
+        }
+        &.right {
+            right: 0px;
+            margin-right: 20px;     
+        }
+    }
+}
+
+div.led-status {
+    overflow: hidden; 
+    margin: auto;
+    display: inline-block;    
+
+    .icon {
+        background-repeat: no-repeat;
+        background-size: contain;
+        float: left;
+
+        &.active {
+            height: 70px;
+            width: 70px;
+            background-image: url("img/tick.png");
+        }
+
+        &.inactive{
+            height: 85px;
+            width: 85px;
+            background-image: url("img/cross.png");
+        }
+    }
+    
+    .text {
+        float: left;
+        margin-left: 8px;
+
+        .status {
+            padding-top: 8px; 
+            font-weight: 700;
+
+            .active {
+                color: #01b300
+            }
+            .inactive {
+                color: #ea0000
+            }
+        }
+        .clock {
+            font-weight: 500;
+            color: #0012ff;
+        }
+    }
+    .button { 
+        margin-left: 8px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        float: left;
+        height: 70px;
+        width: 70px;
+        cursor: pointer; 
+
+        &.on {
+            background-image: url("img/on.png");
+        }
+        &.off {
+            background-image: url("img/off.png");
+        }
+        &.disabled {
+            background-image: url("img/disabled.png");
+        }
+    }
+}
