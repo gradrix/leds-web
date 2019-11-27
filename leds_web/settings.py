@@ -26,7 +26,7 @@ with open('/etc/secret_key.txt') as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['leds.lan', 'localhost']
+ALLOWED_HOSTS = ['leds.lan', 'localhost', os.environ.get('PUBLIC_IP')]
 
 # Application definition
 
