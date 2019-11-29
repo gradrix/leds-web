@@ -1,7 +1,7 @@
 import sys
 import re
-from models import LedSettings
-from commandclient import CommandClient
+from api.models import LedSettings
+from api.commandclient import CommandClient
 
 LED_HOST = "localhost"
 LED_PORT = "8080"

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import asyncore
 import socket
 import time
@@ -10,7 +9,7 @@ class CommandClient(asyncore.dispatcher):
         self.host = ip
         self.port = int(port)
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.connect((self.host, self.port))
 
     def handle_connect(self):

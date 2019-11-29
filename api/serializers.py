@@ -1,4 +1,4 @@
-from models import LedSettings
+from api.models import LedSettings
 from rest_framework import serializers
 
 class LedSerializer(serializers.Serializer):  

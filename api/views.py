@@ -3,19 +3,17 @@ from __future__ import unicode_literals
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from models import LedSettings
-from renderers import JRenderer
-from serializers import LedSerializer
-from ledservicewrapper import LedServiceWrapper
+from api.models import LedSettings
+from api.serializers import LedSerializer
+from api.ledservicewrapper import LedServiceWrapper
 
 class BaseView(APIView):
 
     authentication_classes = []
 
     class Meta:   
-    
         abstract = True
-        app_label = 'ledcontrol'
+        app_label = 'api'
         authentication_classes = []
 
     def __init__(self):
@@ -27,6 +25,9 @@ class BaseView(APIView):
 
     def setSetting(self, key, value):
         return self.ledSvc.setSetting(key + ":" +str(value))
+
+    def has_permission(self, f, s):
+        return True
 
 class LedStatusView(BaseView):
                
