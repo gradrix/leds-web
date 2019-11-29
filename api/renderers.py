@@ -16,5 +16,3 @@ class WebAPIRenderer(BrowsableAPIRenderer):
 
   def has_object_permission(self, a, b, c):
     return True
-
-

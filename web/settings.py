@@ -133,4 +133,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'build')
 STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'npm-build/'),
 )
-STATIC_URL = '/static/'
+STATIC_URL = '/content/'

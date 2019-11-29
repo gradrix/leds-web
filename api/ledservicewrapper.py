@@ -4,7 +4,7 @@ from api.models import LedSettings
 from api.commandclient import CommandClient
 
 LED_HOST = "localhost"
-LED_PORT = "8080"
+LED_PORT = "800"
 
 class LedServiceWrapper():
 
@@ -36,7 +36,6 @@ class LedServiceWrapper():
                 res.toggle = int(value)
             elif (key == "S"):
                 res.speed = int(value)
-
         return res
 
     def setSetting(self, setting):

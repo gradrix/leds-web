@@ -9,23 +9,17 @@ class CommandClient(asyncore.dispatcher):
         self.host = ip
         self.port = int(port)
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.connect((self.host, self.port))
 
-    def handle_connect(self):
-        pass
-
     def handle_close(self):
+        print("CommandClient: Connection Closed")
         self.close()
 
-    def handle_read(self):
-        self.recv(40)
+    def send(self, data):
+        super().send(data.encode('ascii'))
 
     def writable(self):
         return True
-
-    def handle_error(self):
-        print("CommandClient error.")
 
     def waitForResponse(self, timeout=10):
         begin = time.time()
@@ -34,10 +28,10 @@ class CommandClient(asyncore.dispatcher):
             if ((time.time() - begin) > timeout):
                 break
             try:
-                response = self.recv(40)
+                response = self.recv(100)
                 if (response != None and len(response) > 0):
                     break
             except:
                 pass
         self.close()
-        return response
+        return response.decode('ascii')
