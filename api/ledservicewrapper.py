@@ -1,6 +1,7 @@
 import sys
 import re
-from api.models import LedSettings
+from api.models.ledsettings import LedSettings
+from api.models.modelayout import ModeLayout
 from api.commandclient import CommandClient
 
 LED_HOST = "localhost"
@@ -36,6 +37,28 @@ class LedServiceWrapper():
                 res.toggle = int(value)
             elif (key == "S"):
                 res.speed = int(value)
+        return res
+    
+    def getModeLayout(self):
+        res = ModeLayout()
+        self.cmdClient.send("LA")
+        layoutData = self.cmdClient.waitForResponse()
+        
+        resultArray = re.findall("(?:[a-zA-Z]*:)(?:(?!;).)*", layoutData, re.DOTALL)
+
+        for param in resultArray:
+            paramValues = param.split(":")
+            key = paramValues[0]
+            value = paramValues[1]
+
+            if (key == "N"):
+                res.name = str(value)
+            elif (key == "I"):
+                res.id = str(value)
+            elif (key == "Smin"):
+                res.minSpeed = int(value)
+            elif (key == "Smax"):
+                res.maxSpeed = int(value)
         return res
 
     def setSetting(self, setting):

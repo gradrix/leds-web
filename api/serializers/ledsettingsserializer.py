@@ -1,7 +1,6 @@
-from api.models import LedSettings
 from rest_framework import serializers
 
-class LedSerializer(serializers.Serializer):  
+class LedSettingsSerializer(serializers.Serializer):  
     isOn = serializers.BooleanField()
     brightness = serializers.IntegerField()
     mode = serializers.IntegerField()

@@ -12,7 +12,6 @@ class CommandClient(asyncore.dispatcher):
         self.connect((self.host, self.port))
 
     def handle_close(self):
-        print("CommandClient: Connection Closed")
         self.close()
 
     def send(self, data):
