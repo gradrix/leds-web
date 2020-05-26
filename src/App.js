@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Slider from './DomComponents/Slider.js';
-import Status from './DomComponents/Status.js';
+import Slider from './DomComponents/Slider.jsx';
+import Status from './DomComponents/Status.jsx';
 import axios from 'axios';
 import 'rc-slider/assets/index.css';
 import './App.scss';
@@ -14,7 +14,7 @@ class App extends Component {
     this.makingChanges = false;
     this.receivingData = false;
     this.lastChangesSaved = false;
-    this.lastLedStatusCheck =  null;
+    this.lastLedStatusCheck = null;
   };  
 
   state = {
@@ -48,7 +48,7 @@ class App extends Component {
         if (key === "isOn" || model[key]) {
         newModel[key] = model[key];
         }
-        });
+    });
 
     this.setState(newModel);
     this.lastLedStatusCheck = new Date();

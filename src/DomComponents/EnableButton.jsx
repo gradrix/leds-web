@@ -36,10 +36,7 @@ class EnableButton extends React.Component {
     };
 
     render() {
-        return (
-            <div className={this.getClassName()} onClick={this.toggleLeds}>
-            </div>
-        );
+        return <div className={this.getClassName()} onClick={this.toggleLeds}></div>
     };
 };
 

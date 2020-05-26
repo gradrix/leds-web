@@ -1,6 +1,6 @@
 import React from 'react';
-import DynamicSlider from './DynamicSlider.js'
-import DynamicSliderButton from './DynamicSliderButton.js'
+import DynamicSlider from './DynamicSlider.jsx'
+import DynamicSliderButton from './DynamicSliderButton.jsx'
 
 class Slider extends React.Component {
    
@@ -19,14 +19,13 @@ class Slider extends React.Component {
     };
 
     render() {
-        return (
+        return 
             <div className="led-slider">
                 <DynamicSliderButton position={"left"} title={"Decrease"} sliderProps={this.props} value={this.state.value}/>
                 <DynamicSliderButton position={"right"} title={"Increase"} sliderProps={this.props} value={this.state.value}/>
 	        <label>{this.props.label}: {this.state.value}</label>
 	        <DynamicSlider sliderProps={this.props} value={this.state.value}/>
 	     </div>
-	);
     };
 };
 

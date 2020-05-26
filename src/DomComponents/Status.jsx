@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import EnableButton from "./EnableButton.js";
+import EnableButton from "./EnableButton.jsx";
 
 class Status extends React.Component {
 
@@ -66,17 +66,15 @@ class Status extends React.Component {
     }
   };
 
-  /*<div className={this.state.status + " icon"}></div> */
   render() {
-    return (
+    return 
       <div className="led-status">
       <div className="text">
       <div className="status">Status: <span className={this.state.status}>{this.state.stateText}</span></div>
       <div className="clock">{this.state.clockText}</div>
       </div>
       <EnableButton isOn={this.props.isOn} onUpdate={this.props.onUpdate}/>
-      </div>
-    );
+      </div>    
   };
 };
 

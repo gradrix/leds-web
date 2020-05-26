@@ -30,9 +30,7 @@ class DynamicSlider extends React.Component {
     };
 
     render() {
-        return (
-            <Slider value={this.state.value} min={this.sliderProps.min} max={this.sliderProps.max} onChange={this.onSliderChange} onAfterChange={this.onAfterChange}/>
-        );
+        return <Slider value={this.state.value} min={this.sliderProps.min} max={this.sliderProps.max} onChange={this.onSliderChange} onAfterChange={this.onAfterChange}/>        
     }
 }
 

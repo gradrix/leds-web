@@ -2,7 +2,6 @@ import '../bootstrap/css/bootstrap.css'
 import '../bootstrap/css/bootstrap-theme.css'
 
 import React from 'react';
-import Button from 'react-bootstrap/lib/Button';
 
 class DynamicSliderButton extends React.Component {
 
@@ -59,7 +58,8 @@ class DynamicSliderButton extends React.Component {
             this.changeValue(false);
             this.lastUpdate = new Date();
             this.timeSinceLastUpdate = 0;
-        } else {
+        } 
+        else {
             this.timeSinceLastUpdate = (new Date() - this.lastUpdate);
         }
         this.btnCycleCount++;
@@ -93,9 +93,7 @@ class DynamicSliderButton extends React.Component {
     };
 
     render() {
-        return (
-            <button className={(this.props.position + " btn btn-outline-primary")} onTouchStart={this.onMouseDown} onTouchEnd={this.onMouseUp} onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}>{this.props.title}</button>
-        );
+        return <button className={(this.props.position + " btn btn-outline-primary")} onTouchStart={this.onMouseDown} onTouchEnd={this.onMouseUp} onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}>{this.props.title}</button>
     };
 }
 
