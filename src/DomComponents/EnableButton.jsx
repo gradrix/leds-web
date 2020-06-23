@@ -1,4 +1,4 @@
-import React from "react";
+import React from "reactn";
 
 class EnableButton extends React.Component {
 
@@ -29,6 +29,7 @@ class EnableButton extends React.Component {
         }
     };
 
+    //TODO remove this
     componentWillReceiveProps(newProps) {
         this.setState({
             isOn: newProps.isOn,

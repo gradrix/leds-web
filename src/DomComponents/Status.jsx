@@ -1,4 +1,4 @@
-import React from "react";
+import React from "reactn";
 import moment from "moment";
 import EnableButton from "./EnableButton.jsx";
 
@@ -45,6 +45,7 @@ class Status extends React.Component {
     clearInterval(this.timerId);
   };
 
+  //TODO remove this
   componentWillReceiveProps(newProps) {
     var newStatus = "inactive";
     var newState = "";
@@ -67,14 +68,15 @@ class Status extends React.Component {
   };
 
   render() {
-    return 
+    return (
       <div className="led-status">
       <div className="text">
       <div className="status">Status: <span className={this.state.status}>{this.state.stateText}</span></div>
       <div className="clock">{this.state.clockText}</div>
       </div>
       <EnableButton isOn={this.props.isOn} onUpdate={this.props.onUpdate}/>
-      </div>    
+      </div>   
+    ); 
   };
 };
 

@@ -1,7 +1,8 @@
-const devMode = process.env.NODE_ENV !== "production";
+const isDevMode = process.env.NODE_ENV !== "production";
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+ 
 module.exports = {
     entry: "./src/index.js",
     output: {
@@ -65,8 +66,9 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: "css/bundle.css"
-        })
+        }),
+        new BundleAnalyzerPlugin()
     ],
-    watch: true,
-    mode : devMode ? "development" : "production",
+    watch: isDevMode,
+    mode : isDevMode ? "development" : "production",
 }

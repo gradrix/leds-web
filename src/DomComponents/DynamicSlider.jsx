@@ -1,6 +1,6 @@
 import 'rc-slider/assets/index.css';
 
-import React from 'react';
+import React from 'reactn';
 import Slider from 'rc-slider';
 
 class DynamicSlider extends React.Component {
@@ -23,6 +23,7 @@ class DynamicSlider extends React.Component {
         this.sliderProps.onUpdate(this.sliderProps.id, newValue, true);
     };
 
+    //TODO remove this
     componentWillReceiveProps(newProps) {
         if (newProps.sliderProps.value !== this.state.value) {
             this.setState({ value: newProps.sliderProps.value });

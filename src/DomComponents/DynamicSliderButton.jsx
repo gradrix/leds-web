@@ -1,7 +1,7 @@
 import '../bootstrap/css/bootstrap.css'
 import '../bootstrap/css/bootstrap-theme.css'
 
-import React from 'react';
+import React from 'reactn';
 
 class DynamicSliderButton extends React.Component {
 
@@ -82,6 +82,7 @@ class DynamicSliderButton extends React.Component {
         this.sliderProps.onUpdate(this.sliderProps.id, this.state.value, true);
     };
 
+    //TODO remove this
     componentWillReceiveProps(newProps) {
         if (newProps.value !== this.state.value) {
             this.setState({ value: newProps.value });

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, setGlobal } from 'reactn';
+
 import Slider from './DomComponents/Slider.jsx';
 import Status from './DomComponents/Status.jsx';
-import axios from 'axios';
 import 'rc-slider/assets/index.css';
 import './App.scss';
 
@@ -17,14 +17,6 @@ class App extends Component {
     this.lastLedStatusCheck = null;
   };  
 
-  state = {
-    isOn: null,
-    brightness: 0,
-    mode: 0,
-    toggle: 0,
-    speed: 0,
-  };    
-
   stateUpdate(key, newValue, commitChanges) {
     var newState = {};
     newState[key] = newValue;
@@ -34,69 +26,25 @@ class App extends Component {
 
     this.setState(newState);
     if (commitChanges) {
-      this.setLedSetting(key, newState);
+      this.dispatch.setLedSetting(key, newState);
       this.makingChanges = false;
-    } else {
+    } 
+    else {
       this.makingChanges = true;
     }
     return newState;
   };
 
-  setLedStates(model) {
-    var newModel = {};
-    Object.keys(model).forEach(function(key) {
-        if (key === "isOn" || model[key]) {
-        newModel[key] = model[key];
-        }
-    });
-
-    this.setState(newModel);
-    this.lastLedStatusCheck = new Date();
-  };
-
-  getLedStatus() {
-    if (!this.makingChanges && !this.receivingData) {
-      this.receivingData = true;
-      axios.get("/api/status/")
-        .then(result => { 
-          this.setLedStates(result.data);
-          this.receivingData = false; 
-        })
-        .catch(error => {
-          var model = {
-            isOn: null,
-          };
-          this.setLedStates(model);
-          this.receivingData = false;
-        });
-    }
-  };
-
-  setLedSetting(key, object) {
-    if (!this.lastChangesSaved) {
-      axios.post("/api/"+key+"/", object)
-        .then(result => { 
-          this.setLedStates(result.data);
-          this.lastChangesSaved = true; 
-        })
-        .catch(error => {
-          var model = {
-            isOn: null,
-          };
-          this.setLedStates(model);
-          this.lastChangesSaved = true; 
-        });
-    }
-  };
-
   ledStatusTask() {
     var self = this;
-      this.interval = setInterval(() => {
-        if (!self.lastLedStatusCheck || (((new Date() - self.lastLedStatusCheck) / 1000) > 5 )) {
-          self.getLedStatus()
-        }
-      }, 1000);
-  }
+
+    this.interval = setInterval(() => {
+      if (!self.lastLedStatusCheck || (((new Date() - self.lastLedStatusCheck) / 1000) > 5 )) {
+        setGlobal(self.dispatch.getLedSettings());
+        this.lastLedStatusCheck = new Date();
+      }
+    }, 1000);
+  };
 
   componentDidMount() {
     this.ledStatusTask();
@@ -112,9 +60,9 @@ class App extends Component {
       <header className="App-header">
         <h1 className="App-title">Led Control</h1>
       </header>
-      <Status isOn={this.state.isOn} onUpdate={this.stateUpdate}/>
-      <Slider label={"Brightness"} min={0} max={100} value={this.state.brightness} onUpdate={this.stateUpdate} id={"brightness"}/>
-      <Slider label={"Speed"} min={0} max={100} value={this.state.speed} onUpdate={this.stateUpdate} id={"speed"}/>
+      <Status isOn={this.global.isOn}/>
+      <Slider label={"Brightness"} min={0} max={100} value={this.global.brightness} id={"brightness"}/>
+      <Slider label={"Speed"} min={0} max={100} value={this.global.speed} id={"speed"}/>
       </div>
     );
   };

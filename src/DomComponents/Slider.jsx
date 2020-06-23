@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'reactn';
 import DynamicSlider from './DynamicSlider.jsx'
 import DynamicSliderButton from './DynamicSliderButton.jsx'
 
@@ -11,7 +11,8 @@ class Slider extends React.Component {
             value: props.value,
         };
     };
-        
+
+    //TODO remove this
     componentWillReceiveProps(newProps) {
         if (newProps.value !== this.state.value) {
             this.setState({ value: newProps.value });
@@ -19,13 +20,14 @@ class Slider extends React.Component {
     };
 
     render() {
-        return 
+        return (
             <div className="led-slider">
                 <DynamicSliderButton position={"left"} title={"Decrease"} sliderProps={this.props} value={this.state.value}/>
                 <DynamicSliderButton position={"right"} title={"Increase"} sliderProps={this.props} value={this.state.value}/>
 	        <label>{this.props.label}: {this.state.value}</label>
 	        <DynamicSlider sliderProps={this.props} value={this.state.value}/>
 	     </div>
+         );
     };
 };
 
