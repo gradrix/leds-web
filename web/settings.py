@@ -18,8 +18,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open('/etc/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
+#with open('/etc/secret_key.txt') as f:
+#    SECRET_KEY = f.read().strip()
+SECRET_KEY = 'ecm$2$##o3h3&ef!vhr37!29=koiu(^2+=@5nhtt_vx8qv^j2j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -63,7 +64,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'build')
+            os.path.join(BASE_DIR, 'npm-build')
         ],
         'APP_DIRS': True,
         'OPTIONS': {

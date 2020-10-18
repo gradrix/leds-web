@@ -1,8 +1,9 @@
 from rest_framework import serializers
+from api.serializers.ledprogramsserializer import LedProgramsSerializer
 
 class ModeLayoutSerializer(serializers.Serializer):  
     
-    id = serializers.IntegerField()
-    name = serializers.CharField()
+    modeId = serializers.IntegerField()
+    modes = LedProgramsSerializer(many=True)
     minSpeed = serializers.IntegerField()
     maxSpeed = serializers.IntegerField()

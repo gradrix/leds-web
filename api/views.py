@@ -49,41 +49,26 @@ class ModeLayoutView(BaseView):
         try:
           result = self.ledSvc.getModeLayout()
         except Exception as e:
-          print(e)
           result = ModeLayout()
         return Response(self.modeLayoutToJson(result))
 
-class BrightnessView(BaseView):
+class LedStatusSetView(BaseView):
 
     def post(self, request):
-        newBrightness = request.data["brightness"]
-        result = self.setSetting("B",newBrightness)
-        return Response(self.ledSettingsToJson(result))
+        result = None
+        key = request.data["key"]
+        value = request.data["value"]
+        if (key == "brightness"):
+            result = self.setSetting("B",value)
+        elif (key == "isOn"):
+            result = self.setSetting("O",value)
+        elif (key == "mode"):
+            result = self.setSetting("M",value)
+        elif (key == "toggle"):
+            result = self.setSetting("T",value)
+        elif (key == "speed"):
+            result = self.setSetting("S",value)
+        elif (key == "color"):
+            result = self.setSetting("C",value)
 
-class OperationView(BaseView):
-
-    def post(self, request):
-        newOperation = 1 if request.data["isOn"] else 0
-        result = self.setSetting("O", newOperation)
-        return Response(self.ledSettingsToJson(result))
-
-class ModeView(BaseView):
-
-    def post(self, request):
-        newMode = request.data["mode"]
-        result = self.setSetting("M", newMode)
-        return Response(self.ledSettingsToJson(result))
-
-class ToggleView(BaseView):
-
-    def post(self, request):
-        newToggle = request.data["toggle"]
-        result = self.setSetting("T", newToggle)
-        return Response(self.ledSettingsToJson(result))
-
-class SpeedView(BaseView):
-
-    def post(self, request):
-        newSpeed = request.data["speed"]
-        result = self.setSetting("S", newSpeed)
         return Response(self.ledSettingsToJson(result))

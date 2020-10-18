@@ -1,10 +1,14 @@
-import React from 'reactn';
+import React from "react";
 import ReactDOM from 'react-dom';
+import { Provider } from "react-redux";
 
-import './Reducers/LedStatusGlobal.js'
+import store from "./redux/store";
 import App from './App';
 
+const appElement = document.getElementById("App");
 ReactDOM.render(
-  <App />,
-  document.getElementById('App')
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  appElement
 );

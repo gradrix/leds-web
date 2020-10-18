@@ -2,10 +2,11 @@ import sys
 import re
 from api.models.ledsettings import LedSettings
 from api.models.modelayout import ModeLayout
+from api.models.ledprogram import LedProgram
 from api.commandclient import CommandClient
 
-LED_HOST = "localhost"
-LED_PORT = "800"
+LED_HOST = "0.0.0.0"
+LED_PORT = "9000"
 
 class LedServiceWrapper():
 
@@ -20,6 +21,7 @@ class LedServiceWrapper():
         else:
             settingsData = settingsString
         
+       # print("GOT settings: "+str(settingsData))
         resultArray = re.findall("(?:[a-zA-Z]*:)(?:(?!;).)*", settingsData, re.DOTALL)
 
         for param in resultArray:
@@ -37,13 +39,14 @@ class LedServiceWrapper():
                 res.toggle = int(value)
             elif (key == "S"):
                 res.speed = int(value)
+            elif (key == "C"):
+                res.color = str(value)
         return res
     
     def getModeLayout(self):
         res = ModeLayout()
         self.cmdClient.send("LA")
         layoutData = self.cmdClient.waitForResponse()
-        
         resultArray = re.findall("(?:[a-zA-Z]*:)(?:(?!;).)*", layoutData, re.DOTALL)
 
         for param in resultArray:
@@ -51,14 +54,20 @@ class LedServiceWrapper():
             key = paramValues[0]
             value = paramValues[1]
 
-            if (key == "N"):
-                res.name = str(value)
-            elif (key == "I"):
-                res.id = str(value)
+            if (key == "I"):
+                res.modeId = str(value)
             elif (key == "Smin"):
                 res.minSpeed = int(value)
             elif (key == "Smax"):
                 res.maxSpeed = int(value)
+            elif (key == "M"):      
+                res.modes = []          
+                value = re.sub(r'(\[|\])', '', value)
+                modes = value.split(",")
+
+                for mode in modes:
+                    modeValues = mode.split("=")
+                    res.modes.append(LedProgram(int(modeValues[0]), str(modeValues[1])))
         return res
 
     def setSetting(self, setting):

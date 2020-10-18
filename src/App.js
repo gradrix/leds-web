@@ -1,71 +1,74 @@
-import React, { Component, setGlobal } from 'reactn';
+import React from "react";
+import { connect } from 'react-redux';
 
-import Slider from './DomComponents/Slider.jsx';
-import Status from './DomComponents/Status.jsx';
-import 'rc-slider/assets/index.css';
+import { fetchLedStatus } from "./redux/actions/ledStatusActions";
+import { fetchLayoutSettings } from "./redux/actions/layoutSettingsActions";
+import StatusContainer from './components/StatusContainer';
+import SliderContainer from "./components/SliderContainer";
+import ProgramSelector from "./components/ProgramSelector";
+import ColorPicker from "./components/ColorPicker";
 import './App.scss';
 
-class App extends Component {
+class App extends React.Component {
 
-  constructor(props) {
-    super(props);
+  getLedStatus() {
+    this.updateModeLayoutIfNeeded();
+    this.props.fetchLedStatus();
+  }
 
-    this.stateUpdate = this.stateUpdate.bind(this);
-    this.makingChanges = false;
-    this.receivingData = false;
-    this.lastChangesSaved = false;
-    this.lastLedStatusCheck = null;
-  };  
-
-  stateUpdate(key, newValue, commitChanges) {
-    var newState = {};
-    newState[key] = newValue;
-    if (newState[key] !== this.state[key]) {
-      this.lastChangesSaved = false;
+  updateModeLayoutIfNeeded() {
+    if (this.props.currentMode !== this.props.mode) {
+      this.props.fetchLayoutSettings();
     }
-
-    this.setState(newState);
-    if (commitChanges) {
-      this.dispatch.setLedSetting(key, newState);
-      this.makingChanges = false;
-    } 
-    else {
-      this.makingChanges = true;
-    }
-    return newState;
-  };
-
-  ledStatusTask() {
-    var self = this;
-
-    this.interval = setInterval(() => {
-      if (!self.lastLedStatusCheck || (((new Date() - self.lastLedStatusCheck) / 1000) > 5 )) {
-        setGlobal(self.dispatch.getLedSettings());
-        this.lastLedStatusCheck = new Date();
-      }
-    }, 1000);
   };
 
   componentDidMount() {
-    this.ledStatusTask();
+    this.getLedStatus();
+
+    this.timerId = setInterval(
+      () => this.getLedStatus(),
+      5000
+    );
   };
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    clearInterval(this.timerId);
   };
-
+ 
   render() {
     return (
-      <div className="App">
-      <header className="App-header">
-        <h1 className="App-title">Led Control</h1>
-      </header>
-      <Status isOn={this.global.isOn}/>
-      <Slider label={"Brightness"} min={0} max={100} value={this.global.brightness} id={"brightness"}/>
-      <Slider label={"Speed"} min={0} max={100} value={this.global.speed} id={"speed"}/>
-      </div>
+      <div className="LedsApp">
+        <header className="App-header">
+          <h1 className="App-title">{this.props.modeName} Control</h1>
+        </header>
+        <StatusContainer />
+        <SliderContainer label="Brightness" settingKey="brightness" />
+        <SliderContainer label="Speed" settingKey="speed" min={this.props.minSpeed} max={this.props.maxSpeed}/>
+        <br/>
+        <ProgramSelector />
+        <br/>
+        <ColorPicker />
+    </div>
     );
+  };
+}
+
+const mapStateToProps = state => {
+  const { ledStatus, layoutSettings } = state;
+  
+  const ledProgram = layoutSettings.modes.find(m => m.id === ledStatus.mode)
+
+  return { 
+    isOn: ledStatus.isOn,
+    modeName: ledProgram ? ledProgram.name : "Led",
+    currentMode: ledStatus.mode,
+    mode: layoutSettings.modeIndex,
+    minSpeed: layoutSettings.minSpeed, 
+    maxSpeed: layoutSettings.maxSpeed 
   };
 };
 
-export default App;
+export default connect(
+  mapStateToProps,
+  { fetchLedStatus, fetchLayoutSettings }
+)(App);
