@@ -61,7 +61,11 @@ class LedStatusSetView(BaseView):
         if (key == "brightness"):
             result = self.setSetting("B",value)
         elif (key == "isOn"):
-            result = self.setSetting("O",value)
+            if (value):
+                onValue = "1"
+            else:
+                onValue = "0"
+            result = self.setSetting("O",onValue)
         elif (key == "mode"):
             result = self.setSetting("M",value)
         elif (key == "toggle"):

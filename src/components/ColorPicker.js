@@ -31,6 +31,10 @@ class ColorPicker extends React.Component {
         });
     };
 
+    isEnabled = () => {
+        return this.props.isVisible || this.state.showColorPicker;
+    }
+
     render() {
         return <div>
                     <label>Color</label>
@@ -38,12 +42,14 @@ class ColorPicker extends React.Component {
                         <button onClick={ this.handleSelectButtonClick }>Select</button>
                         <button onClick={ this.handleRandomButtonClick }>Random</button>
                     </div>
-                    <div className="color-picker-container" style={{ "visibility": this.state.showColorPicker ? "visible" : "hidden" }} >
+                    <div className="color-picker-container" style={{ "visibility": this.isEnabled() ? "visible" : "hidden" }} >
                         <SketchPicker
-                            display={ this.state.showColorPicker }
+                            display={ this.isEnabled() }
                             color={ this.props.color }
-                            disableAlpha="true"
+                            disableAlpha={ true }
                             position="center"
+                            width="auto"
+                            height="350"
                             onChangeComplete={ this.handleChangeComplete }
                         />
                     </div>
@@ -53,10 +59,10 @@ class ColorPicker extends React.Component {
 
 const mapStateToProps = state => {
     const { ledStatus } = state;
-    const isRandom = !ledStatus.color 
-    const color = !isRandom ?
+    const isEnabled = typeof(ledStatus.color) !== "undefined"
+    const color = isEnabled ?
         "#"+ledStatus.color : "#0000FF"
-    return { color };
+    return { color, isVisible: !isEnabled};
 };
 
 export default connect(

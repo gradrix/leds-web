@@ -101,6 +101,15 @@ body {
             padding-bottom: 5px;
         }
     }
+
+    .color-picker-controls {
+        padding-bottom: 10px;
+
+        button {
+            min-width: 85px;
+            margin-right: 2px;
+        }
+    }
 }
 
 @media (max-width: 460px) {
