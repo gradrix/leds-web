@@ -25,7 +25,7 @@ SECRET_KEY = 'ecm$2$##o3h3&ef!vhr37!29=koiu(^2+=@5nhtt_vx8qv^j2j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['leds.lan', 'localhost', os.environ.get('PUBLIC_IP')]
+ALLOWED_HOSTS = ['leds.lan', 'leds',  'localhost', os.environ.get('PUBLIC_IP')]
 
 # Application definition
 

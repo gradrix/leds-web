@@ -16,7 +16,7 @@ class Clock extends React.Component {
     getAgoTime = function(seconds) {
         let result = "";
         const secs = seconds % 60;
-        const minutes = Math.floor(seconds / 60);
+        const minutes = Math.floor(seconds / 60) % 60;
         const hours = Math.floor(seconds / 3600);
         
         if (hours > 0) {
@@ -25,7 +25,10 @@ class Clock extends React.Component {
         if (minutes > 0) {
             result += minutes + "m ";
         }
-        result += secs + "s ago";
+        if (secs > 0) {
+            result += secs + "s ";
+        }
+        result += "ago";
         return result;
     }
 

@@ -29,18 +29,16 @@ export const fetchLedStatus = function() {
     return (dispatch) => {
 
         if (isRequestRunning) return;
-
-        dispatch(getStatusRequest());
         isRequestRunning = true;
 
         return fetch("/api/status/", { method: 'GET'})
-        .then(response => Promise.all([response, response.json()]))
-        .then(([response, json]) => 
-            processStatusResponse(dispatch, response, json)
-        ).catch(function(error) {
-            isRequestRunning = false;
-            dispatch(getStatusError())
-        });
+            .then(response => Promise.all([response, response.json()]))
+            .then(([response, json]) => 
+                processStatusResponse(dispatch, response, json)
+            ).catch(function(error) {
+                isRequestRunning = false;
+                dispatch(getStatusError())
+            });
     }
 }
 
