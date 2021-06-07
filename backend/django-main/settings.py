@@ -20,12 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 #with open('/etc/secret_key.txt') as f:
 #    SECRET_KEY = f.read().strip()
-SECRET_KEY = 'ecm$2$##o3h3&ef!vhr37!29=koiu(^2+=@5nhtt_vx8qv^j2j'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['leds.lan', 'leds',  'localhost', os.environ.get('PUBLIC_IP')]
+# 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
+# For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 
@@ -58,13 +59,13 @@ REST_FRAMEWORK = {
     ]
 }
 
-ROOT_URLCONF = 'web.urls'
+ROOT_URLCONF = 'django-main.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'npm-build')
+            os.path.join(BASE_DIR, 'build')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -78,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'web.wsgi.application'
+WSGI_APPLICATION = 'django-main.wsgi.application'
 
 
 # Database
@@ -125,13 +126,14 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
+# Used to work:
 STATIC_ROOT = os.path.join(BASE_DIR, 'build')
 
-#SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-
 STATICFILES_DIRS = (
-  os.path.join(BASE_DIR, 'npm-build/'),
+  os.path.join(BASE_DIR, 'react-build/'),
 )
 STATIC_URL = '/content/'
+# end of Used to work
+
+#STATIC_URL = '/build/' 
+#STATIC_ROOT = os.path.join(BASE_DIR, 'build')

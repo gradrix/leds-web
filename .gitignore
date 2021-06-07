@@ -1,4 +1,5 @@
 *.swp
+*.swo
 node_modules/
 
 # Byte-compiled / optimized / DLL files
@@ -12,7 +13,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
-npm-build/
+react-build/
 develop-eggs/
 dist/
 downloads/

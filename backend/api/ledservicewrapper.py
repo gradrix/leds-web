@@ -1,12 +1,13 @@
 import sys
 import re
+import os
 from api.models.ledsettings import LedSettings
 from api.models.modelayout import ModeLayout
 from api.models.ledprogram import LedProgram
 from api.commandclient import CommandClient
 
-LED_HOST = "0.0.0.0"
-LED_PORT = "9000"
+LED_HOST = os.environ.get("LED_SERVER_HOST")
+LED_PORT = os.environ.get("LED_SERVER_PORT")
 
 class LedServiceWrapper():
 

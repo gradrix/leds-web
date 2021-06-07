@@ -1,12 +1,22 @@
-const isDevMode = process.env.NODE_ENV !== "production";
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
- 
-module.exports = {
-    entry: "./src/index.js",
+const path = require('path');
+
+module.exports = (env, argv) => {
+  var currentPath = __dirname;
+  const isDevMode = argv.mode === "development";
+  const sourceMapOptions = {
+    sourceMap: isDevMode
+  };
+  if (isDevMode) {
+    currentPath = path.join(__dirname, '../backend');
+  }
+
+  return {
+    entry: "./index.js",
     output: {
-        path: __dirname + "/npm-build",
+        path: currentPath + "/react-build",
         filename: "js/bundle.js",
         publicPath: "/content/"
     },
@@ -16,20 +26,18 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/, 
                 exclude: /node_modules/,
-                use: [{
-                    loader: "babel-loader",
-                    query: {
-                        presets: ["@babel/preset-env", "@babel/preset-react"]
-                    } 
-                }]                        
+                loader: "babel-loader",
+                options: {
+                    presets: ["@babel/preset-env", "@babel/preset-react"]
+                }                        
             },
             // Stylesheets
             {
                 test: /\.(scss|css)$/,
                 use: [
-                    { loader: MiniCssExtractPlugin.loader, options: { sourceMap: true } }, 
-                    { loader: "css-loader", options: { sourceMap: true } },
-                    { loader: "sass-loader", options: { sourceMap: true } }
+                    { loader: MiniCssExtractPlugin.loader }, 
+                    { loader: "css-loader", options: sourceMapOptions },
+                    { loader: "sass-loader", options: sourceMapOptions }
                 ]
             },
             // Font Definitions
@@ -56,20 +64,33 @@ module.exports = {
             }
         ]
     },
-    devtool: "source-map",
+    devtool: isDevMode ? "source-map" : false,
     plugins: [
         new HtmlWebpackPlugin({
             hash: true,
             title: "LEDS",
-            template: "./src/index.html",
+            template: "./index.html",
             filename: "index.html",
-            favicon: "./src/img/favicon.ico"
+            favicon: "./img/favicon.ico"
         }),
         new MiniCssExtractPlugin({
             filename: "css/bundle.css"
         }),
-        new BundleAnalyzerPlugin()
+        new BundleAnalyzerPlugin(),
+        // Quit after build
+        {
+          apply: (compiler) => {
+            compiler.hooks.done.tap("DonePlugin", (stats) => {
+            console.log("Build is completed!");
+            setTimeout(() => {
+              if (!isDevMode) {
+                process.exit(0);
+              }
+            });
+          });
+         }
+        }
     ],
     watch: isDevMode,
-    mode : isDevMode ? "development" : "production",
+  }
 }

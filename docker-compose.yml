@@ -1,12 +1,35 @@
-version: '3.9'
+version: '2'
 
 services:
-  web:
-    build: ./app
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./app/:/usr/src/app/
+  nginx: 
+    restart: unless-stopped
+    build:
+        context: .
+        dockerfile: ./docker/nginx/Dockerfile
     ports:
-      - 8000:8000
+        - 80:80
+    volumes:
+        - static_volume:/app/backend/build
+        - ./docker/nginx:/etc/nginx/conf.d
+    depends_on: 
+        - django
+  django:
+    restart: unless-stopped
+    build:
+        context: .
+        dockerfile: ./docker/django/Dockerfile
+    entrypoint: /app/backend/wsgi-entrypoint.sh
+    volumes:
+        - static_volume:/app/backend/build
+    expose:
+        - 8080
     env_file:
-      - ./.env.dev
+      - ./.env.prod
+
+volumes:
+  static_volume: {}
+
+networks:
+  default:
+    external:
+      name: leds-network
