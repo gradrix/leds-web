@@ -17,12 +17,10 @@ class LedServiceWrapper():
     def getSettings(self, settingsString = None):
         res = LedSettings()
         if (settingsString == None):
-            self.cmdClient.send("ST")
-            settingsData = self.cmdClient.waitForResponse()
+            settingsData = self.cmdClient.send("ST")
         else:
             settingsData = settingsString
         
-       # print("GOT settings: "+str(settingsData))
         resultArray = re.findall("(?:[a-zA-Z]*:)(?:(?!;).)*", settingsData, re.DOTALL)
 
         for param in resultArray:
@@ -46,8 +44,7 @@ class LedServiceWrapper():
     
     def getModeLayout(self):
         res = ModeLayout()
-        self.cmdClient.send("LA")
-        layoutData = self.cmdClient.waitForResponse()
+        layoutData = self.cmdClient.send("LA")
         resultArray = re.findall("(?:[a-zA-Z]*:)(?:(?!;).)*", layoutData, re.DOTALL)
 
         for param in resultArray:
@@ -72,6 +69,5 @@ class LedServiceWrapper():
         return res
 
     def setSetting(self, setting):
-        self.cmdClient.send(setting)
-        allSettings = self.cmdClient.waitForResponse()
+        allSettings = self.cmdClient.send(setting)
         return self.getSettings(allSettings)

@@ -126,14 +126,9 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Used to work:
 STATIC_ROOT = os.path.join(BASE_DIR, 'build')
 
 STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'react-build/'),
 )
 STATIC_URL = '/content/'
-# end of Used to work
-
-#STATIC_URL = '/build/' 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'build')

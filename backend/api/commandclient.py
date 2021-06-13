@@ -1,42 +1,42 @@
-import asyncore
-import socket
+import zmq
 import time
+import multiprocessing
 
-class CommandClient(asyncore.dispatcher):
+class CommandClient():
 
-  def __init__(self, ip, port):
-    asyncore.dispatcher.__init__(self)
-    self.host = ip
-    self.port = int(port)
-    self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-    self.connect((self.host, self.port))
+    def __init__(self, ip, port):
+        self.ip = ip
+        self.port = port
 
-  def handle_close(self):
-    self.close()
+    def sendWorker(self, request, queue):
+        context = zmq.Context()
+        socket = context.socket(zmq.REQ)
+        socket.setsockopt( zmq.LINGER, 0);
+        socket.connect("tcp://"+str(self.ip)+":"+str(self.port))
 
-  def send(self, data):
-    try:
-      super().send(data.encode('ascii'))
-    except:
-      pass
+        result = queue.get()
+        try:
+            socket.send(request.encode('ascii'))
+            result['response'] = socket.recv().decode('ascii')
+        except Exception as e:
+            print(e)
+            pass
+        queue.put(result)
 
-  def writable(self):
-    return True
+    def send(self, request, timeout=5):
+        begin = time.time()
+        queue = multiprocessing.Queue()
+        queue.put({'response': ''})
+        p = multiprocessing.Process(target=self.sendWorker, args=(request,queue,))
+        p.start()
 
-  def waitForResponse(self, timeout=5):
-    begin = time.time()
-    response = None
-    
-    while 1:
-      if ((time.time() - begin) > timeout):
-        break
-      
-      try:
-        response = self.recv(100)
-        if (response != None and len(response) > 0):
-          break
-      except Exception as e:
-        pass
-    
-    self.close()
-    return response.decode('ascii')
+        while p.is_alive():
+            if ((time.time() - begin) > timeout):
+                p.terminate()
+            time.sleep(0.1)
+        else:
+            try:            
+                result = queue.get(False)
+                return result['response']
+            except:
+                return ""
