@@ -1,9 +1,17 @@
+import sys
 from commandclient import CommandClient
 
-while True:
-  text = input("CMD to send:")
-  client = CommandClient("localhost", "9000")
+host = sys.argv[1]
+port = sys.argv[2]
 
-  response = client.send(str(text.rstrip()))
-  print(">"+str(response))
+print("Connecting to "+str(host)+":"+str(port))
+while True:
+    text = input("CMD to send:")
+    if (text == "q"):
+        sys.exit()
+
+    client = CommandClient(host, port)
+
+    response = client.send(str(text.rstrip()))
+    print(">"+str(response))
 
