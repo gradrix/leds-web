@@ -1,13 +1,17 @@
 {
-  "name": "leds-web",
+  "name": "@gradrix/wsgi-led-controller",
   "version": "1.1.0",
-  "description": "Web to control Leds",
+  "description": "Front end lib to control Leds",
+  "author": {
+    "name": "Grazvydas Jucius",
+    "email": "jucius.grazvydas@gmail.com"
+  },
   "scripts": {
+    "clean": "rm -rf node_modules/",
     "watch": "webpack --mode development",
     "build": "webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Grazvydas Jucius",
   "license": "ISC",
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
