@@ -1,5 +1,5 @@
 {
-  "name": "@gradrix/wsgi-led-controller",
+  "name": "@gradrix/leds-client",
   "version": "1.1.0",
   "description": "Front end lib to control Leds",
   "author": {
