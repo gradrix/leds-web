@@ -25,7 +25,7 @@ const processLayoutResponse = function(dispatch, response, json) {
     }
 }
 
-export const fetchLayoutSettings = function() {
+export const fetchLayoutSettings = function({serviceIndex = 1}) {
     return (dispatch) => {
 
         if (isLayoutRequestRunning) return;
@@ -33,13 +33,13 @@ export const fetchLayoutSettings = function() {
         dispatch(getLayoutSettingsRequest());
         isLayoutRequestRunning = true;
 
-        return fetch("/api/layout/", { method: 'GET'})
-        .then(response => Promise.all([response, response.json()]))
-        .then(([response, json]) => 
-            processLayoutResponse(dispatch, response, json)
-        ).catch(function(error) {
-            isLayoutRequestRunning = false;
-            dispatch(getLayoutSettingsError())
-        });
+        return fetch("/api/layout/?serviceIndex="+serviceIndex, { method: 'GET'})
+            .then(response => Promise.all([response, response.json()]))
+            .then(([response, json]) => 
+                processLayoutResponse(dispatch, response, json)
+            ).catch(function(error) {
+                isLayoutRequestRunning = false;
+                dispatch(getLayoutSettingsError())
+            });
     }
 }

@@ -1,24 +1,8 @@
 {
-  "name": "@gradrix/leds-client",
-  "version": "1.1.0",
-  "description": "Front end lib to control Leds",
-  "author": {
-    "name": "Grazvydas Jucius",
-    "email": "jucius.grazvydas@gmail.com"
-  },
-  "scripts": {
-    "clean": "rm -rf node_modules/",
-    "watch": "webpack --mode development",
-    "build": "webpack --mode production",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "license": "ISC",
-  "devDependencies": {
-    "babel-preset-env": "^1.7.0",
-    "core-js": "^3.12.1",
-    "webpack": "^5.37.0",
-    "webpack-cli": "^4.7.0"
-  },
+  "name": "leds-web-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "dependencies": {
     "@babel/core": "^7.14.3",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
@@ -46,6 +30,32 @@
     "styled-components": "^5.3.0",
     "webpack-bundle-analyzer": "^4.4.2"
   },
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "core-js": "^3.12.1",
+    "eslint": "^8.6.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.28.0",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules/",
+    "watch": "webpack --mode development",
+    "build": "webpack --mode production",
+    "lint": "eslint leds-client/**/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gradrix/leds-web.git"
+  },
+  "author": "Grazvydas Jucius",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gradrix/leds-web/issues"
+  },
+  "homepage": "https://github.com/gradrix/leds-web#readme",
   "babel": {
     "presets": [
       "@babel/preset-env",

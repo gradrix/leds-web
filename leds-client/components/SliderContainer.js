@@ -46,7 +46,7 @@ const SliderContainer = (props) => (
             min={(props.min ? props.min : 0)}
             max={(props.max ? props.max : 100)}
             value={props.value}
-            onAfterChange={newValue => props.setLedStatus(props.settingKey, newValue)}
+            onAfterChange={newValue => props.setLedStatus({key: props.settingKey, value: newValue})}
         />
     </div>
 );

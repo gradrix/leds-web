@@ -16,7 +16,7 @@ const getClassName = function(status) {
 
 const EnableButton = ({ status, setLedStatus }) => (
     <div className={getClassName(status)} onClick={() => {
-        setLedStatus("isOn", !status)
+        setLedStatus({key: "isOn", value: !status})
     }}
     ></div>
 );

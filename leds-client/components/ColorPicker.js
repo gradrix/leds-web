@@ -15,14 +15,14 @@ class ColorPicker extends React.Component {
     }
 
     handleChangeComplete = (color) => {
-        this.props.setLedStatus("color", color.hex.replace('#',''))
+        this.props.setLedStatus({key: "color", value: color.hex.replace('#','')})
     };
 
     handleRandomButtonClick = () => {
         this.setState({
             showColorPicker: false
         });
-        this.props.setLedStatus("color", "")
+        this.props.setLedStatus({key: "color", value: ""})
     };
 
     handleSelectButtonClick = () => {

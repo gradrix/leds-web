@@ -7,18 +7,26 @@ import StatusContainer from './components/StatusContainer';
 import SliderContainer from "./components/SliderContainer";
 import ProgramSelector from "./components/ProgramSelector";
 import ColorPicker from "./components/ColorPicker";
-import './App.scss';
+import './LedsClient.scss';
 
-class App extends React.Component {
+class LedsClient extends React.Component {
+
+  constructor(props) {
+    if (!props.serviceIndex) {
+      props.serviceIndex = 1
+    }
+    
+    super(props);
+  }
 
   getLedStatus() {
     this.updateModeLayoutIfNeeded();
-    this.props.fetchLedStatus();
+    this.props.fetchLedStatus({serviceIndex: this.props.serviceIndex});
   }
 
   updateModeLayoutIfNeeded() {
     if (this.props.currentMode !== this.props.mode) {
-      this.props.fetchLayoutSettings();
+      this.props.fetchLayoutSettings({serviceIndex: this.props.serviceIndex});
     }
   };
 
@@ -71,4 +79,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { fetchLedStatus, fetchLayoutSettings }
-)(App);
+)(LedsClient);

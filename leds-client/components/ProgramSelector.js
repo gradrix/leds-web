@@ -66,7 +66,7 @@ const mapStateToProps = function(state, props) {
 const mapDispatchToProps = dispatch => {
   return {
     setStatus: (key, value) => {
-      dispatch(setLedStatus(key, value))
+      dispatch(setLedStatus({key, value}))
     }
   }
 }
