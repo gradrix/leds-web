@@ -1,8 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const fs = require('fs')
-const fsPromises = fs.promises;
+const { promises: fs } = require('fs')
 const readline = require('readline');
 
 function askForBuildDestination(query) {
@@ -19,28 +18,30 @@ function askForBuildDestination(query) {
 
 async function getBuildDestinationPath() {
     const filePath = __dirname + "/settings.cfg";
-    return fsPromises.access(filePath, fs.F_OK)
+    return fs.access(filePath, fs.F_OK)
         .then(async () => {
-            const result = await fsPromises.readFile(filePath, (error, data) => {
+            const result = await fs.readFile(filePath, (error, data) => {
                 if(error) {
                     throw error;
                 }
-                return data
+                return data;
             })
-            return result.toString()
+            return result.toString();
         })
-        .catch(async() => {
-            const buildDestination = await askForBuildDestination("Please type destination path (absolute) - e.g.: '/home/g/repos/leds-service/frontend-build'\n");
-            return fs.access(buildDestination, async (error) => {
-                if (error) {
-                    throw new Error('Invalid path specified..'+error);
-                }
-
-                return fsPromises.writeFile(filePath, buildDestination, function (err) {
-                    if (err) return console.log(err);
-                    console.log('Hello World > helloworld.txt');
+        .catch(async () => {
+            const buildDestination = await askForBuildDestination("Please type destination path (absolute) - e.g.: '/home/g/repos/leds-service/frontend-build':\n");
+            return await fs.access(buildDestination, fs.F_OK)
+                .then(async () => {
+                    const destination = buildDestination.replace(/(\r\n|\n|\r)/gm, "");
+                    return fs.writeFile(filePath, destination)
+                        .then(() => destination)
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                })
+                .catch((error) => {
+                    throw new Error("Invalid path specified.. "+error);
                 });
-            })
         })      
 }
 
