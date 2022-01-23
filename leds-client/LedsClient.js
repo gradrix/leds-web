@@ -7,7 +7,6 @@ import StatusContainer from './components/StatusContainer';
 import SliderContainer from "./components/SliderContainer";
 import ProgramSelector from "./components/ProgramSelector";
 import ColorPicker from "./components/ColorPicker";
-import './LedsClient.scss';
 
 class LedsClient extends React.Component {
 
@@ -76,7 +75,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchLedStatus, fetchLayoutSettings }
-)(LedsClient);
+function buildLedsClient(serviceIndex) {
+  console.log(serviceIndex);
+  return connect(
+    mapStateToProps,
+    { fetchLedStatus, fetchLayoutSettings }
+  )(LedsClient);
+}
+
+export { buildLedsClient };

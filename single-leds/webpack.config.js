@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { promises: fs } = require('fs')
 const readline = require('readline');
+const path = require('path');
 
 function askForBuildDestination(query) {
     const rl = readline.createInterface({
@@ -111,7 +112,7 @@ module.exports = async (env, argv) => {
                     title: "LEDS",
                     template: "./index.html",
                     filename: "index.html",
-                    favicon: "./leds-client/img/favicon.ico"
+                    favicon: "../leds-client/img/favicon.ico"
                 }),
                 new MiniCssExtractPlugin({
                     filename: "css/bundle.css"
@@ -131,7 +132,25 @@ module.exports = async (env, argv) => {
                  }
                 }
             ],
+            resolve: {
+                alias: {
+                    'styled-components': path.resolve(__dirname, './node_modules/styled-components'),
+                    'moment': path.resolve(__dirname, './node_modules/moment'),
+                    'react': path.resolve(__dirname, './node_modules/react'),
+                    'react-redux': path.resolve(__dirname, './node_modules/react-redux'),
+                    'redux': path.resolve(__dirname, './node_modules/redux'),
+                    'redux-thunk': path.resolve(__dirname, './node_modules/redux-thunk'),
+                    'react-slider': path.resolve(__dirname, './node_modules/react-slider'),
+                    'react-select': path.resolve(__dirname, './node_modules/react-select'),
+                    'react-color': path.resolve(__dirname, './node_modules/react-color'),
+                },
+            },
             watch: isDevMode,
+            performance: {
+                hints: false,
+                maxEntrypointSize: 512000,
+                maxAssetSize: 512000
+            }
           }        
     })
 }

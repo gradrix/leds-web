@@ -39,13 +39,13 @@ body {
             &.active {
                 height: 70px;
                 width: 70px;
-                background-image: url("img/tick.png");
+                background-image: url("../leds-client/img/tick.png");
             }
     
             &.inactive{
                 height: 85px;
                 width: 85px;
-                background-image: url("img/cross.png");
+                background-image: url("../leds-client/img/cross.png");
             }
         }
         
@@ -81,13 +81,13 @@ body {
             margin-right: 15px;
     
             &.on {
-                background-image: url("img/on.png");
+                background-image: url("../leds-client/img/on.png");
             }
             &.off {
-                background-image: url("img/off.png");
+                background-image: url("../leds-client/img/off.png");
             }
             &.disabled {
-                background-image: url("img/disabled.png");
+                background-image: url("../leds-client/img/disabled.png");
             }
         }
     } 
