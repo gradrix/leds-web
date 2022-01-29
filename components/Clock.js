@@ -25,10 +25,8 @@ class Clock extends React.Component {
         if (minutes > 0) {
             result += minutes + "m ";
         }
-        if (secs > 0) {
-            result += secs + "s ";
-        }
-        result += "ago";
+        
+        result += secs + "s ago";
         return result;
     }
 

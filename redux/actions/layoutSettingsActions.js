@@ -25,13 +25,15 @@ const processLayoutResponse = function(dispatch, response, json) {
     }
 }
 
-export const fetchLayoutSettings = function({serviceIndex = 1}) {
-    return (dispatch) => {
+export const fetchLayoutSettings = function() {
+    return (dispatch, getState) => {
 
         if (isLayoutRequestRunning) return;
 
         dispatch(getLayoutSettingsRequest());
         isLayoutRequestRunning = true;
+
+        const { serviceIndex } = getState().serviceChooser;
 
         return fetch("/api/layout/?serviceIndex="+serviceIndex, { method: 'GET'})
             .then(response => Promise.all([response, response.json()]))

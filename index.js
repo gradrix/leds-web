@@ -2,14 +2,14 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
 
-import store from "../leds-client/redux/store";
-import LedsClient from '../leds-client/LedsClient';
-import './LedsClient.scss';
+import store from "./redux/store";
+import LedsClient from './LedsClient';
+import './css/LedsClient.scss';
 
 const appElement = document.getElementById("LedsClient");
 ReactDOM.render(
   <Provider store={store}>
-    <LedsClient serviceIndex={1} />
+    <LedsClient services={2} />
   </Provider>,
   appElement
 );

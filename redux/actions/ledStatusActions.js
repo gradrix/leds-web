@@ -25,11 +25,13 @@ const processStatusResponse = function(dispatch, response, json) {
     }
 }
 
-export const fetchLedStatus = function({serviceIndex = 1}) {
-    return (dispatch) => {
+export const fetchLedStatus = function() {
+    return (dispatch, getState) => {
 
         if (isRequestRunning) return;
         isRequestRunning = true;
+
+        const { serviceIndex } = getState().serviceChooser;
 
         return fetch("/api/status/?serviceIndex="+serviceIndex, { method: 'GET'})
             .then(response => Promise.all([response, response.json()]))
@@ -42,14 +44,13 @@ export const fetchLedStatus = function({serviceIndex = 1}) {
     }
 }
 
-export const setLedStatus = function({key, value, serviceIndex = 1}) {
-    return (dispatch) => {
+export const setLedStatus = function({key, value}) {
+    return (dispatch, getState) => {
 
         dispatch(getStatusRequest());
-        if (isRequestRunning) return;
-
         isRequestRunning = true;
 
+        const { serviceIndex } = getState().serviceChooser;
         var objToSend = {
             serviceIndex
         }

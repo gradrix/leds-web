@@ -4,6 +4,7 @@ import ReactSlider from 'react-slider'
 import styled from 'styled-components';
 
 import { setLedStatus } from "../redux/actions/ledStatusActions";
+
 /*
 Styling
 */

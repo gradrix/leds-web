@@ -1,4 +1,11 @@
-import { GET_STATUS_REQUEST, GET_STATUS_SUCCESS } from "../actionTypes";
+import { 
+  GET_STATUS_REQUEST, 
+  GET_STATUS_SUCCESS, 
+  GET_LAYOUT_REQUEST,
+  GET_LAYOUT_SUCCESS,
+  SET_SERVICE_REQUEST,
+  SET_SERVICE_SUCCESS
+} from "../actionTypes";
 
 const initialState = {
     isOn: null,
@@ -9,14 +16,16 @@ const initialState = {
     color: null,
     lastUpdateTime: null
 };
+let previousState = initialState;
 
 const ledStatus = (state = initialState, action) => {
   switch (action.type) {
     case GET_STATUS_REQUEST:
+      previousState = state;
       return state;
     case GET_STATUS_SUCCESS: 
       const result = action.payload;
-      return {
+      const newState = {
         ...state,
         isOn: result.isOn,
         brightness: result.brightness,
@@ -26,9 +35,16 @@ const ledStatus = (state = initialState, action) => {
         color: result.color ? result.color : null,
         lastUpdateTime: new Date()
       };
+      previousState = newState;
+      return newState;
+    case GET_LAYOUT_REQUEST:
+    case GET_LAYOUT_SUCCESS:
+    case SET_SERVICE_REQUEST:
+    case SET_SERVICE_SUCCESS:
+      return previousState;
     default:
       return {
-        ...state,
+        ...previousState,
         isOn: null
       };
   }

@@ -7,12 +7,13 @@ import StatusContainer from './components/StatusContainer';
 import SliderContainer from "./components/SliderContainer";
 import ProgramSelector from "./components/ProgramSelector";
 import ColorPicker from "./components/ColorPicker";
+import ServiceSelector from "./components/ServiceSelector";
 
 class LedsClient extends React.Component {
 
   constructor(props) {
-    if (!props.serviceIndex) {
-      props.serviceIndex = 1
+    if (!props.services) {
+      props.services = 1
     }
     
     super(props);
@@ -20,12 +21,12 @@ class LedsClient extends React.Component {
 
   getLedStatus() {
     this.updateModeLayoutIfNeeded();
-    this.props.fetchLedStatus({serviceIndex: this.props.serviceIndex});
+    this.props.fetchLedStatus();
   }
 
   updateModeLayoutIfNeeded() {
     if (this.props.currentMode !== this.props.mode) {
-      this.props.fetchLayoutSettings({serviceIndex: this.props.serviceIndex});
+      this.props.fetchLayoutSettings();
     }
   };
 
@@ -43,17 +44,20 @@ class LedsClient extends React.Component {
   };
  
   render() {
+    const serviceContainer = this.props.services > 1 
+      ? <ServiceSelector services={this.props.services} />
+      : null;
+
     return (
       <div className="LedsApp">
         <header className="App-header">
           <h1 className="App-title">{this.props.modeName} Control</h1>
         </header>
         <StatusContainer />
+        {serviceContainer}
         <SliderContainer label="Brightness" settingKey="brightness" />
         <SliderContainer label="Speed" settingKey="speed" min={this.props.minSpeed} max={this.props.maxSpeed}/>
-        <br/>
         <ProgramSelector />
-        <br/>
         <ColorPicker />
     </div>
     );
@@ -75,12 +79,7 @@ const mapStateToProps = state => {
   };
 };
 
-function buildLedsClient(serviceIndex) {
-  console.log(serviceIndex);
-  return connect(
-    mapStateToProps,
-    { fetchLedStatus, fetchLayoutSettings }
-  )(LedsClient);
-}
-
-export { buildLedsClient };
+export default connect(
+  mapStateToProps,
+  { fetchLedStatus, fetchLayoutSettings }
+)(LedsClient);

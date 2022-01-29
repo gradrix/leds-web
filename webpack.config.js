@@ -112,7 +112,7 @@ module.exports = async (env, argv) => {
                     title: "LEDS",
                     template: "./index.html",
                     filename: "index.html",
-                    favicon: "../leds-client/img/favicon.ico"
+                    favicon: "./img/favicon.ico"
                 }),
                 new MiniCssExtractPlugin({
                     filename: "css/bundle.css"
