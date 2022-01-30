@@ -9,7 +9,7 @@ class ProgramSelector extends React.Component {
 
   render() {
     return <div className="selector">
-            <label>Led Program</label>
+            <label>Led Program:</label>
             <Select
                 isSearchable={false}
                 value={this.props.currentMode}

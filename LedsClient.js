@@ -12,30 +12,18 @@ import ServiceSelector from "./components/ServiceSelector";
 class LedsClient extends React.Component {
 
   constructor(props) {
-    if (!props.services) {
-      props.services = 1
-    }
-    
     super(props);
-  }
-
-  getLedStatus() {
-    this.updateModeLayoutIfNeeded();
-    this.props.fetchLedStatus();
-  }
-
-  updateModeLayoutIfNeeded() {
-    if (this.props.currentMode !== this.props.mode) {
-      this.props.fetchLayoutSettings();
+    this.state = {
+      services: props.services || 1 
     }
-  };
+  }
 
   componentDidMount() {
-    this.getLedStatus();
+    this.props.fetchLayoutSettings();
 
     this.timerId = setInterval(
-      () => this.getLedStatus(),
-      5000
+      () => this.props.fetchLedStatus(),
+      4000
     );
   };
 
@@ -44,20 +32,25 @@ class LedsClient extends React.Component {
   };
  
   render() {
-    const serviceContainer = this.props.services > 1 
-      ? <ServiceSelector services={this.props.services} />
+    const serviceContainer = this.state.services > 1 
+      ? <ServiceSelector services={this.state.services} />
       : null;
+    const service = this.state.services > 1 
+      ? "#"+ this.props.service  +" "
+      : "";
 
     return (
       <div className="LedsApp">
         <header className="App-header">
-          <h1 className="App-title">{this.props.modeName} Control</h1>
+          <h1 className="App-title">{service}{this.props.modeName} Control</h1>
         </header>
         <StatusContainer />
-        {serviceContainer}
+        <div className="settings">
+          {serviceContainer} 
+          <ProgramSelector />
+        </div>        
         <SliderContainer label="Brightness" settingKey="brightness" />
         <SliderContainer label="Speed" settingKey="speed" min={this.props.minSpeed} max={this.props.maxSpeed}/>
-        <ProgramSelector />
         <ColorPicker />
     </div>
     );
@@ -65,7 +58,7 @@ class LedsClient extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { ledStatus, layoutSettings } = state;
+  const { ledStatus, layoutSettings, serviceChooser } = state;
   
   const ledProgram = layoutSettings.modes.find(m => m.id === ledStatus.mode)
 
@@ -75,7 +68,8 @@ const mapStateToProps = state => {
     currentMode: ledStatus.mode,
     mode: layoutSettings.modeIndex,
     minSpeed: layoutSettings.minSpeed, 
-    maxSpeed: layoutSettings.maxSpeed 
+    maxSpeed: layoutSettings.maxSpeed,
+    service:  serviceChooser.serviceIndex
   };
 };
 

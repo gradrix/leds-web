@@ -1,4 +1,5 @@
 import { GET_LAYOUT_REQUEST, GET_LAYOUT_SUCCESS, GET_LAYOUT_ERROR } from "../actionTypes";
+import { fetchLedStatus } from "./ledStatusActions"
 
 export const getLayoutSettingsRequest = () => ({
     type: GET_LAYOUT_REQUEST
@@ -18,11 +19,12 @@ let isLayoutRequestRunning = false;
 const processLayoutResponse = function(dispatch, response, json) {
     isLayoutRequestRunning = false;
     if (response.status === 200) {
-        dispatch(getLayoutSettingsSuccess(json))
+        dispatch(getLayoutSettingsSuccess(json));
     }
     else {
-        dispatch(getLayoutSettingsError())
+        dispatch(getLayoutSettingsError());
     }
+    dispatch(fetchLedStatus());
 }
 
 export const fetchLayoutSettings = function() {

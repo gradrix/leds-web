@@ -91,17 +91,6 @@ module.exports = async (env, argv) => {
                                 outputPath: "fonts/"
                             }
                         }]
-                    },
-                    // Images
-                    { 
-                        test: /\.(gif|png)$/,  
-                        use: [{
-                            loader: "file-loader",
-                            options: {
-                                name: "[name].[ext]",
-                                outputPath: "images/"
-                            }
-                        }]
                     }
                 ]
             },
@@ -132,19 +121,6 @@ module.exports = async (env, argv) => {
                  }
                 }
             ],
-            resolve: {
-                alias: {
-                    'styled-components': path.resolve(__dirname, './node_modules/styled-components'),
-                    'moment': path.resolve(__dirname, './node_modules/moment'),
-                    'react': path.resolve(__dirname, './node_modules/react'),
-                    'react-redux': path.resolve(__dirname, './node_modules/react-redux'),
-                    'redux': path.resolve(__dirname, './node_modules/redux'),
-                    'redux-thunk': path.resolve(__dirname, './node_modules/redux-thunk'),
-                    'react-slider': path.resolve(__dirname, './node_modules/react-slider'),
-                    'react-select': path.resolve(__dirname, './node_modules/react-select'),
-                    'react-color': path.resolve(__dirname, './node_modules/react-color'),
-                },
-            },
             watch: isDevMode,
             performance: {
                 hints: false,

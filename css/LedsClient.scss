@@ -31,11 +31,11 @@ body {
         margin: auto;
         display: inline-block;
         padding-bottom: 10px;
+        white-space: nowrap;
     
         .icon {
             background-repeat: no-repeat;
             background-size: contain;
-            float: left;
     
             &.active {
                 height: 70px;
@@ -51,8 +51,8 @@ body {
         }
         
         .text {
-            float: left;
-            margin-left: 8px;
+            margin-right: 5px;
+            display: inline-block;
     
             .status {
                 padding-top: 8px; 
@@ -71,15 +71,14 @@ body {
             }
         }
         .button { 
+            display: inline-block;
             background-repeat: no-repeat;
             background-size: contain;
-            height: 54px;
-            width: 155px;
+            height: 40px;
+            width: 120px;
             cursor: pointer;
-            position: absolute;
-            right: 0;
-            margin-top: 15px;
-            margin-right: 15px;
+            margin-top: 6px;
+            margin-left: 5px;
     
             &.on {
                 background-image: url("../img/on.png");
@@ -107,6 +106,11 @@ body {
 
     .selector {
         padding-bottom: 50px;
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 200px;
+        margin: auto;
+        display: inline-block;
     }
 
     .color-picker-controls {
@@ -116,6 +120,10 @@ body {
             min-width: 85px;
             margin-right: 2px;
         }
+    }
+
+    .settings {
+        white-space: nowrap;
     }
 }
 
@@ -140,6 +148,10 @@ body {
             label {
                 font-size: 16px;
             }
+        }
+
+        .selector {
+            width: 150px;
         }
     }
 }
